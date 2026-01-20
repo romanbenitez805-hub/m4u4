@@ -1,0 +1,8 @@
+
+var session = require('express-session');
+
+app.use(session({
+  secret: 'clave-secreta',   // cambia por una clave segura
+  resave: false,
+  saveUninitialized: true
+}));
