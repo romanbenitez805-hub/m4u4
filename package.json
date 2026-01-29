@@ -8,11 +8,15 @@
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^17.2.3",
     "express": "^4.22.1",
-    "express-session": "^1.18.2",
+    "express-session": "^1.19.0",
     "hbs": "^4.2.0",
     "http-errors": "~1.6.3",
+    "md5": "^2.3.0",
     "morgan": "^1.10.1",
-    "nodemon": "^3.1.11"
+    "mysql2": "^3.16.2",
+    "nodemon": "^3.1.11",
+    "util": "^0.12.5"
   }
 }

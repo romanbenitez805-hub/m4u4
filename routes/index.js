@@ -1,18 +1,33 @@
+
 const express = require('express');
 const router = express.Router();
+const empleadosModel = require('../modelos/empleadosModel'); // nombre correcto
 
-router.get('/', (req, res) => {
-  res.render('index');
-});
+// Middleware para proteger la ruta
+function secured(req, res, next) {
+  if (req.session && req.session.id_usuario) {
+    next();
+  } else {
+    res.redirect('/admin/login');
+  }
+}
 
-router.post('/guardar', (req, res) => {
-  req.session.nombre = req.body.nombre;
-  res.redirect('/admin');
-});
-
-router.get('/admin', (req, res) => {
-  res.render('admin', { nombre: req.session.nombre });
+// Ruta principal del panel admin
+router.get('/', secured, async (req, res) => {
+  try {
+    const empleados = await empleadosModel.getEmpleados();
+    res.render('admin', {
+      nombre: req.session.usuario,
+      empleados
+    });
+  } catch (error) {
+    console.log(error);
+    res.render('admin', {
+      nombre: req.session.usuario,
+      empleados: [],
+      error: true
+    });
+  }
 });
 
 module.exports = router;
-

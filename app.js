@@ -3,11 +3,17 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var session = require('express-session'); // <-- agregado
+var session = require('express-session');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var loginRouter = require('./routes/admin/login');
+require('dotenv').config(); // cargar variables de entorno
+
+
+
+// Routers
+var indexRouter = require('./routes/index.js');
+var usersRouter = require('./routes/users.js');
+var loginRouter = require('./routes/admin/login.js');
+var adminRouter = require('./routes/index.js'); // <-- agregado
 
 var app = express();
 
@@ -22,10 +28,24 @@ app.use(cookieParser());
 
 // configuración de sesiones
 app.use(session({
-  secret: 'clave-secreta', // cambia por una clave segura
+  secret: 'cursom4u4 ',
   resave: false,
   saveUninitialized: true
 }));
+
+const secured = async (req, res, next) => {
+  try {
+    console.log(req.session.id_usuario);
+    if (req.session.id_usuario) {
+      next();
+    } else {
+      res.redirect('/admin/login');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -33,14 +53,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin/login', loginRouter);
+app.use('/admin', secured, adminRouter); // <-- montamos el panel admin
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
@@ -48,3 +69,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+

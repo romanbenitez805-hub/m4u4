@@ -1,0 +1,33 @@
+<h2>Panel de Administración</h2>
+<p>Hola {{nombre}}, bienvenido al panel.</p>
+
+<h3>Lista de empleados</h3>
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Trabajo</th>
+    <th>Edad</th>
+    <th>Salario</th>
+    <th>Mail</th>
+  </tr>
+  {{#each empleados}}
+    <tr>
+      <td>{{id_emp}}</td>
+      <td>{{nombre}}</td>
+      <td>{{apellido}}</td>
+      <td>{{trabajo}}</td>
+      <td>{{edad}}</td>
+      <td>{{salario}}</td>
+      <td>{{mail}}</td>
+    </tr>
+  {{/each}}
+</table>
+<p>
+  <a href="/admin/login/logout">
+    <button type="button" style="background-color: red; color: white; border: none; padding: 8px 16px; border-radius: 4px;">
+      Cerrar sesión
+    </button>
+  </a>
+</p>
