@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const empleadosModel = require('../modelos/empleadosModel'); // nombre correcto
-
+const getNovedadesmodel = require('../modelos/novedadesModel');
 // Middleware para proteger la ruta
 function secured(req, res, next) {
   if (req.session && req.session.id_usuario) {
